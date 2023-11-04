@@ -1,14 +1,14 @@
 import axios from 'axios'
 import React, { useEffect } from 'react'
 import { useParams } from "react-router-dom";
-import { selectProduct, cleanupProduct } from '../redux/actions/ProductActions';
+import { selectProduct, cleanupProduct, setAllProducts } from '../features/reducers/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ProductDetails = () => {
-  const product = useSelector((state) => state.product)
-  console.log(product)
-  const { productId } = useParams();
+  const product = useSelector((state) => state)
   const dispatch  = useDispatch()
+  const { productId } = useParams();
+  console.log(product)
 
   const {image, title, price, category, description} = product
 
@@ -21,7 +21,6 @@ const ProductDetails = () => {
   useEffect(() => {
     fetchProduct();
     if (productId && productId !== "") fetchProduct(productId);
-
     return () => {
       dispatch(cleanupProduct())
     }
